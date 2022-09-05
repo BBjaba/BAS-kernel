@@ -70,7 +70,15 @@ void PrepareACPI(BootInfo* bootInfo)
     ACPI::SDTHeader* xsdt = (ACPI::SDTHeader*)(bootInfo->rsdp->XSDTAddress);    
     ACPI::MCFGHeader* mcfg = (ACPI::MCFGHeader*)ACPI::FindTable(xsdt, (char*)"MCFG");
 
+    GlobalRenderer->PrintColoring("PCI Devices Detected:", Magenta);
+    GlobalRenderer->Next(2);
+
+    uint32_t pastColor = GlobalRenderer->Colour;
+    GlobalRenderer->Colour = Cyan;
     PCI::EnumeratePCI(mcfg);
+    GlobalRenderer->Colour = pastColor;
+
+    GlobalRenderer->Next();
 }
 
 BasicRenderer r = BasicRenderer(NULL, NULL);
