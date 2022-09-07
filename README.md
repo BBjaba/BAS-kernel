@@ -41,7 +41,7 @@ make run
  ## Shell commands
  You can use see all supported commands with using `help` command.
  
- ## Kenrel implementation progress
+ ## Kernel implementation progress
  - [x] Uefi support
  - [x] GOP for graphics support
  - [x] `.psf` file for font
