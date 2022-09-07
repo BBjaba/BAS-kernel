@@ -29,12 +29,3 @@ bool getBit(uint8_t byte, int position)
     return (byte >> position) & 0x1;
 }
 
-void sleep(uint32_t timer_count)
-{
-  while(1){
-    asm volatile("nop");
-    timer_count--;
-    if(timer_count <= 0)
-      break;
-  }
-}

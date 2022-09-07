@@ -1,4 +1,6 @@
 #include "pci.h"
+#include "AHCI/ahci.h"
+#include "memory/dynamics.h"
 
 namespace PCI{
 
@@ -23,6 +25,20 @@ namespace PCI{
         GlobalRenderer->Print(" / ");
         GlobalRenderer->Print(GetProgIFName(pciDeviceHeader->Class, pciDeviceHeader->Subclass, pciDeviceHeader->ProgIF));
         GlobalRenderer->Next();
+
+        switch (pciDeviceHeader->Class)
+        {
+            case 0x01:
+                switch (pciDeviceHeader->Subclass)
+                {
+                    case 0x06:
+                        switch (pciDeviceHeader->ProgIF)
+                        {
+                            case 0x01: //AHCI 1.0 Device
+                                new AHCI::AHCIDriver(pciDeviceHeader);
+                        }
+                }
+        }
 
     }
 

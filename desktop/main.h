@@ -18,8 +18,9 @@
 #include "userinput/keyboard.h"
 #include "userinput/mouse.h"
 #include "BSL/string.h"
-#include "Heap.h"
-#include "dynamics.h"
+#include "memory/heap.h"
+#include "memory/dynamics.h"
+#include "memory/standardHeap.h"
 #include "handlers/keyboard.h"
 #include "handlers/mouse.h"
 

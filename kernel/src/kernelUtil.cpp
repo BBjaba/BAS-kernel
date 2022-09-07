@@ -5,6 +5,7 @@
 #include "IO.h"
 #include "userinput/mouse.h"
 #include "pci.h"
+#include "memory/heap.h"
 
 KernelInfo kernelInfo; 
 
@@ -59,6 +60,7 @@ void PrepareInterrupts(){
     IDTGate((void*) GPFault_Handler, 0xD, IDT_TA_InterruptGate, 0x08);
     IDTGate((void*) KeyboardInt_Handler, 0x21, IDT_TA_InterruptGate, 0x08);
     IDTGate((void*) MouseInt_Handler, 0x2C, IDT_TA_InterruptGate, 0x08);
+    IDTGate((void*) PITInt_Handler, 0x20, IDT_TA_InterruptGate, 0x08);
 
     asm ("lidt %0" : : "m" (idtr));
 
@@ -95,13 +97,15 @@ KernelInfo InitializeKernel(BootInfo* bootInfo){
 
     memset(bootInfo->framebuffer->BaseAddress, 0, bootInfo->framebuffer->BufferSize);
 
+    InitializeHeap((void*)0x0000100000000000, 0x10);
+
     PrepareInterrupts();
 
     PS2MouseInitialization();
 
     PrepareACPI(bootInfo);
 
-    outb(PIC1_DATA, 0b11111001);
+    outb(PIC1_DATA, 0b11111000);
     outb(PIC2_DATA, 0b11101111);
 
     asm ("sti");

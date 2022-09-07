@@ -49,7 +49,9 @@ make run
  - [x] Interrupts
  - [x] PS2 mouse and keyboard support
  - [x] PCI support
- - [ ] AHCI
+ - [x] AHCI (Drive initialization)
+ - [ ] AHCI (Port configrations)
+ - [ ] AHCI (Read drives)
  - [ ] USB support
  - [ ] Disk storage support with AHCI
  - [ ] Fat16 and Fat32 support

@@ -3,6 +3,7 @@
 #include "../IO.h"
 #include "../userinput/keyboard.h"
 #include "../userinput/mouse.h"
+#include "../time/pit/pit.h"
 
 __attribute__((interrupt)) void PageFault_Handler(interrupt_frame* frame){
     Panic("Page Fault Detected");
@@ -33,6 +34,12 @@ __attribute__((interrupt)) void MouseInt_Handler(interrupt_frame* frame){
     HandleMouseData(mouseData);
 
     PIC_EndSlave();
+}
+
+__attribute__((interrupt)) void PITInt_Handler(interrupt_frame* frame){
+    PIT::Tick();
+
+    PIC_EndMaster();
 }
 
 void PIC_EndMaster(){

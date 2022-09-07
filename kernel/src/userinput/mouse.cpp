@@ -81,22 +81,23 @@ bool MouseBufferReady = false;
 uint64_t mouseDataTime = 0;
 void HandleMouseData(uint8_t data)
 {
+    MouseDataAction();
+    static bool skip = true;
+    if (skip) {skip = false; return;}
+
     switch (mouseDataTime)
     {
         case 0:
-            if (MouseBufferReady) break;
-            if (data & 0b00001000 == 0) break;
+            if ((data & 0b00001000) == 0) break;
             MouseDataBuffer[0] = data;
             MouseBufferReady = false;
             mouseDataTime++;
             break;
         case 1:
-            if (MouseBufferReady) break;
             MouseDataBuffer[1] = data;
             mouseDataTime++;
             break;
         case 2:
-            if (MouseBufferReady) break;
             MouseDataBuffer[2] = data;
             mouseDataTime = 0;
             MouseBufferReady = true;

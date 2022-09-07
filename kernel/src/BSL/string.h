@@ -1,8 +1,7 @@
 #pragma once
 
 #include <stdint.h>
-#include "Heap.h"
-#include "dynamics.h"
+#include "memory/dynamics.h"
 
 #define nullptr 0
 
@@ -32,7 +31,7 @@ class BSLstr {
 void strrev(char *str1);
 char* appendChar(char* array, char a);
 char* strcpy(char* destination, char* source);
-uint32_t strlen (const char* str);
+uint32_t strlen (char* str);
 char* deleteChar(char* array);
 bool isUppercase(char ch);
 bool isLowercase(char ch);

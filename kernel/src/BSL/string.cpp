@@ -1,7 +1,7 @@
 #include "string.h"
 #include "BasicRenderer.h"
 
-uint32_t strlen (const char* str)
+uint32_t strlen (char* str)
 {
   uint32_t length = 0;
   while(str[length])
