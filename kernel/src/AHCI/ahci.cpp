@@ -33,7 +33,7 @@ namespace AHCI
             case SATA_SIG_SEMB:
                 return PortType::SEMB;
             default:
-                PortType::None;
+                return PortType::None;
         }
     }
 

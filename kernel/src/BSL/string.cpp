@@ -1,6 +1,32 @@
 #include "string.h"
 #include "BasicRenderer.h"
 
+bool islower(char chr)
+{
+    return chr >= 'a' && chr <= 'z';
+}
+
+char toupper(char chr)
+{
+    return islower(chr) ? (chr - 'a' + 'A') : chr;
+}
+
+const char* strchr(const char* str, char chr)
+{
+    if (str == NULL)
+        return NULL;
+
+    while (*str)
+    {
+        if (*str == chr)
+            return str;
+
+        ++str;
+    }
+
+    return NULL;
+}
+
 uint32_t strlen (char* str)
 {
   uint32_t length = 0;

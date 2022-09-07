@@ -23,7 +23,7 @@ namespace PCI
         "Encryption Controller",
         "Signal Processing Controller",
         "Processing Accelerator",
-        "Nob-Essential Instrumentation",
+        "Non-Essential Instrumentation",
     };
 
     const char* GetVendorName(uint16_t vendorID)

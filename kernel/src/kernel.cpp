@@ -6,10 +6,12 @@
 #include "time/pit/pit.h"
 #include "time/time.h"
 
+void* g_data = (void*)0x00500200;
+
 extern "C" void _start(BootInfo* bootInfo){
 
     KernelInfo kernelInfo = InitializeKernel(bootInfo);
-    
+
     startDesktop();
     
     while (true)

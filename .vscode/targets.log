@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Wed Sep  7 14:05:43 2022
+# Make data base, printed on Wed Sep  7 22:06:07 2022
 
 # Variables
 
@@ -97,13 +97,13 @@ MAKEFILE_LIST := Makefile
 # automatic
 @F = $(notdir $@)
 # environment
-VSCODE_PID = 2791
+VSCODE_PID = 2886
 # environment
 XDG_SESSION_TYPE = x11
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
 # environment
-SESSION_MANAGER = local/unix:@/tmp/.ICE-unix/1995,unix/unix:/tmp/.ICE-unix/1995
+SESSION_MANAGER = local/unix:@/tmp/.ICE-unix/1970,unix/unix:/tmp/.ICE-unix/1970
 # automatic
 *F = $(notdir $*)
 # environment
@@ -143,7 +143,7 @@ MAKEFILES :=
 # automatic
 ^F = $(notdir $^)
 # environment
-INVOCATION_ID = 85f19eb6f54247fa850221209f3a5757
+INVOCATION_ID = 1f324040f6684e4bbc43816e9c2c8e56
 # environment
 USERNAME = bahamin
 # automatic
@@ -167,7 +167,7 @@ GIO_LAUNCHED_DESKTOP_FILE = /usr/share/applications/code.desktop
 # makefile
 .DEFAULT_GOAL := all
 # environment
-SYSTEMD_EXEC_PID = 2052
+SYSTEMD_EXEC_PID = 2028
 # environment
 HISTCONTROL = ignoredups
 # environment
@@ -179,7 +179,7 @@ USER = bahamin
 # default
 MAKE_VERSION := 4.3
 # environment
-MANAGERPID = 1736
+MANAGERPID = 1723
 # environment
 which_declare = declare -f
 # environment
@@ -187,16 +187,15 @@ HOMEBREW_CELLAR = /home/linuxbrew/.linuxbrew/Cellar
 # environment
 DEBUGINFOD_URLS = https://debuginfod.fedoraproject.org/ 
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 2791
+GIO_LAUNCHED_DESKTOP_FILE_PID = 2886
 # environment
- 
-SSH_AGENT_PID = 1924
+SSH_AGENT_PID = 1899
 # environment
 _ = /usr/bin/make
 # environment
 XDG_RUNTIME_DIR = /run/user/1000
 # environment
-JOURNAL_STREAM = 8:32112
+JOURNAL_STREAM = 8:29606
 # environment
 XDG_SESSION_CLASS = user
 # environment
@@ -232,9 +231,9 @@ GDMSESSION = gnome-xorg
 
 # Directories
 
-# . (device 2057, inode 3809131): 12 files, no impossibilities.
+# . (device 2057, inode 3809131): 13 files, no impossibilities.
 
-# 12 files, no impossibilities in 1 directories.
+# 13 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -302,15 +301,16 @@ run:
 # VPATH Search Paths
 
 # No 'vpath' search paths.
+ 
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 18 / storage = 150 B / avg = 8 B
-# current buf: size = 8162 B / used = 150 B / count = 18 / avg = 8 B
+# strcache buffers: 1 (0) / strings = 19 / storage = 165 B / avg = 8 B
+# current buf: size = 8162 B / used = 165 B / count = 19 / avg = 8 B
 
-# strcache performance: lookups = 26 / hit rate = 30%
+# strcache performance: lookups = 27 / hit rate = 29%
 # hash-table stats:
-# Load=18/8192=0%, Rehash=0, Collisions=0/26=0%
-# Finished Make data base on Wed Sep  7 14:05:43 2022
+# Load=19/8192=0%, Rehash=0, Collisions=0/27=0%
+# Finished Make data base on Wed Sep  7 22:06:07 2022
 
  
