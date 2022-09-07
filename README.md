@@ -53,7 +53,6 @@ make run
  - [ ] AHCI (Port configrations)
  - [ ] AHCI (Read drives)
  - [ ] USB support
- - [ ] Disk storage support with AHCI
  - [ ] Fat16 and Fat32 support
  - [ ] My own filesystem
  - [ ] Elf file support
