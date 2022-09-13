@@ -55,6 +55,37 @@ namespace AHCI
         HBAPort ports[1];
     };
 
+    class Port
+    {
+        public:
+            HBAPort* hbaPort;
+            PortType portType;
+            uint8_t* buffer;
+            uint8_t portNumber;
+            void configure();
+            void stopCommand();
+            void startCommand();
+    };
+
+    struct HBACommandHeader {
+        uint8_t commandFISLength:5;
+        uint8_t atapi:1;
+        uint8_t write:1;
+        uint8_t prefetchable:1;
+
+        uint8_t reset:1;
+        uint8_t bist:1;
+        uint8_t clearBusy:1;
+        uint8_t rsv0:1;
+        uint8_t portMultiplier:4;
+
+        uint16_t prdtLength;
+        uint32_t prdbCount;
+        uint32_t commandTableBaseAddress;
+        uint32_t commandTableBaseAddressUpper;
+        uint32_t rsv1[4];
+    };
+
     class AHCIDriver
     {
         public:
@@ -63,5 +94,7 @@ namespace AHCI
         PCI::PCIDeviceHeader* PCIBaseAddress;
         HBAMemory* ABAR;
         void ProbePorts();
+        Port* ports[32];
+        uint8_t portCount;
     };
 }

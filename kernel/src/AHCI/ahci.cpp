@@ -1,6 +1,8 @@
 #include "ahci.h"
 #include "../BasicRenderer.h"
 #include "../paging/PageTableManager.h"
+#include "../memory/dynamics.h"
+#include "../paging/PageFrameAllocator.h"
 
 namespace AHCI
 {
@@ -11,6 +13,11 @@ namespace AHCI
     #define SATA_SIG_ATA 0x00000101
     #define SATA_SIG_SEMB 0xC33C0101
     #define SATA_SIG_PM 0x96690101
+
+    #define HBA_PxCOMMAND_CR 0x8000
+    #define HBA_PxCOMMAND_FRE 0x0010
+    #define HBA_PxCOMMAND_ST 0x0001
+    #define HBA_PxCOMMAND_FR 0x4000
 
     PortType CheckPortType(HBAPort* port)
     {
@@ -60,8 +67,69 @@ namespace AHCI
                     GlobalRenderer->Print("Not interested");
                     GlobalRenderer->Next();
                 }
+
+                if (portType == PortType::SATA || portType == PortType::SATAPI)
+                {
+                    ports[portCount] = new Port();
+                    ports[portCount]->portType = portType;
+                    ports[portCount]->hbaPort = &ABAR->ports[i];
+                    ports[portCount]->portNumber = portCount;
+                    portCount++;
+                }
             }
         }
+    }
+
+    void Port::configure()
+    {
+        stopCommand();
+
+        void* newBase = GlobalAllocator.RequestPage();
+        hbaPort->commandListBase = (uint32_t)(uint64_t)newBase;
+        hbaPort->commandListBaseUpper = (uint32_t)((uint64_t)newBase >> 32);
+        memset((void*)(hbaPort->commandListBase), 0, 1024);
+
+        void* fisBase = GlobalAllocator.RequestPage();
+        hbaPort->fisBaseAddress = (uint32_t)(uint64_t)fisBase;
+        hbaPort->fisBaseAddressUpper = (uint32_t)((uint64_t)fisBase >> 32);
+        memset(fisBase, 0, 256);
+
+        HBACommandHeader* commandHeader = (HBACommandHeader*)((uint64_t)hbaPort->commandListBase + ((uint64_t)hbaPort->commandListBaseUpper << 32));
+
+        for (int i = 0; i < 32; i++){
+            commandHeader[i].prdtLength = 8;
+
+            void* commandTableAddress = GlobalAllocator.RequestPage();
+            uint64_t address = (uint64_t)commandTableAddress + (i << 8);
+            commandHeader[i].commandTableBaseAddress = (uint32_t)(uint64_t)address;
+            commandHeader[i].commandTableBaseAddressUpper = (uint32_t)((uint64_t)address >> 32);
+            memset(commandTableAddress, 0, 256);
+        }
+
+        startCommand();
+    }
+
+    void Port::stopCommand()
+    {
+        hbaPort->cmdSts &= ~HBA_PxCOMMAND_ST;
+        hbaPort->cmdSts &= ~HBA_PxCOMMAND_FRE;
+
+        while (true)
+        {
+            if (hbaPort->cmdSts & HBA_PxCOMMAND_FR) continue;
+            if (hbaPort->cmdSts & HBA_PxCOMMAND_CR) continue;
+
+            break;
+        }
+    }
+
+    void Port::startCommand()
+    {
+        while (hbaPort->cmdSts & HBA_PxCOMMAND_CR)
+
+        hbaPort->cmdSts |= HBA_PxCOMMAND_FRE;
+        hbaPort->cmdSts |= HBA_PxCOMMAND_ST;
+
     }
 
     AHCIDriver::AHCIDriver(PCI::PCIDeviceHeader* pciBaseAddress){
@@ -76,6 +144,14 @@ namespace AHCI
 
         g_PageTableManager.MapMemory(ABAR, ABAR);
         ProbePorts();
+
+        for (int i = 0; i < portCount; i++)
+        {
+            Port* port = ports[i];
+
+            port->configure();
+        }
+
         GlobalRenderer->Colour = pastColor;
         GlobalRenderer->Next();
         
