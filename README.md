@@ -51,7 +51,7 @@ make run
  - [x] PCI support
  - [x] AHCI (Drive initialization)
  - [x] AHCI (Port configrations)
- - [ ] AHCI (Read drives)
+ - [x] AHCI (Read from drives)
  - [ ] USB support
  - [ ] Fat16 and Fat32 support
  - [ ] My own filesystem

@@ -53,21 +53,6 @@ namespace AHCI
             {
                 PortType portType = CheckPortType(&ABAR->ports[i]);
 
-                if (portType == PortType::SATA) 
-                {
-                    GlobalRenderer->Print("SATA drive");
-                    GlobalRenderer->Next();
-                }
-                else if (portType == PortType::SATAPI) 
-                {
-                    GlobalRenderer->Print("SATAPI drive");
-                    GlobalRenderer->Next();
-                }else 
-                {
-                    GlobalRenderer->Print("Not interested");
-                    GlobalRenderer->Next();
-                }
-
                 if (portType == PortType::SATA || portType == PortType::SATAPI)
                 {
                     ports[portCount] = new Port();
@@ -78,6 +63,68 @@ namespace AHCI
                 }
             }
         }
+    }
+
+    bool Port::Read(uint64_t sector, uint64_t sectorCount, void* buffer)
+    {
+        uint32_t sectorLow = (uint32_t) sector;
+        uint32_t sectorHigh = (uint32_t) (sector >> 32);
+
+        hbaPort->interruptStatus = (uint32_t) - 1;
+
+        HBACommandHeader* commandHeader = (HBACommandHeader*) hbaPort->commandListBase;
+        
+        commandHeader->commandFISLength = sizeof(FIS_REG_H2D) / sizeof(uint32_t);
+        commandHeader->write = 0;
+        commandHeader->prdtLength = 1;
+
+        HBACommandTable* commandTable = (HBACommandTable*)(commandHeader->commandTableBaseAddress);
+        memset(commandTable, 0, sizeof(HBACommandTable) + (commandHeader->prdtLength-1)*sizeof(HBAPRDTEntry));
+
+        commandTable->prdtEntry[0].dataBaseAddress = (uint32_t)(uint64_t)buffer;
+        commandTable->prdtEntry[0].dataBaseAddressUpper = (uint32_t)((uint64_t)buffer >> 32);
+        commandTable->prdtEntry[0].byteCount = (sectorCount << 9) - 1;
+        commandTable->prdtEntry[0].interruptOnCompletion = 1;
+
+        FIS_REG_H2D* commandFIS = (FIS_REG_H2D*)(&commandTable->commandFIS);
+
+        commandFIS->fisType = FIS_TYPE_REG_H2D;
+        commandFIS->commandControl = 1;
+        commandFIS->command = ATA_CMD_READ_DMA_EX;
+
+        commandFIS->lba0 = (uint8_t) sectorLow;
+        commandFIS->lba1 = (uint8_t) (sectorLow >> 8);
+        commandFIS->lba2 = (uint8_t) (sectorLow >> 16);
+        commandFIS->lba3 = (uint8_t) sectorHigh;
+        commandFIS->lba4 = (uint8_t) (sectorHigh >> 8);
+        commandFIS->lba4 = (uint8_t) (sectorHigh >> 16);
+
+        commandFIS->deviceRegister = 1 << 6;
+
+        commandFIS->countLow = sectorCount & 0xFF;
+        commandFIS->countHigh = (sectorCount >> 8) & 0xFF;
+
+        uint64_t spin = 0;
+
+        while ((hbaPort->taskFileData & (ATA_DEV_BUSY | ATA_DEV_DRQ)) && spin < 1000000){
+            spin ++;
+        }
+        if (spin == 1000000) {
+            return false;
+        }
+
+        hbaPort->commandIssue = 1;
+
+        while (true){
+
+            if((hbaPort->commandIssue == 0)) break;
+            if(hbaPort->interruptStatus & HBA_PxIS_TFES)
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     void Port::configure()
@@ -137,7 +184,7 @@ namespace AHCI
         GlobalRenderer->Next();
         uint32_t pastColor = GlobalRenderer->Colour;
         GlobalRenderer->Colour = Magenta;
-        GlobalRenderer->Println("AHCI Driver instance initialized. Drives found:");
+        GlobalRenderer->Println("AHCI Driver instance initialized. Reading from Drives:");
         GlobalRenderer->Colour = Yellow;
 
         ABAR = (HBAMemory*)((PCI::PCIHeader0*)pciBaseAddress)->BAR5;
@@ -150,6 +197,21 @@ namespace AHCI
             Port* port = ports[i];
 
             port->configure();
+
+            if (ports[i]->portType == PortType::SATA)
+            {
+                port->buffer = (uint8_t*) GlobalAllocator.RequestPage();
+                memset(port->buffer, 0, 0x1000);
+                port->Read(0, 4, port->buffer);
+        
+                for (int i = 0; i < 1024; i++)
+                {
+                    GlobalRenderer->Print("0x");
+                    GlobalRenderer->Print(to_hstring(port->buffer[i]));
+                    GlobalRenderer->Print(" ");
+                }
+            }
+            
         }
 
         GlobalRenderer->Colour = pastColor;
