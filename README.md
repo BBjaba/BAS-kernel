@@ -3,6 +3,7 @@ A kernel with alot features like GOP and PCI support with uefi bootlaoder. It ha
 
 ![Screenshot](screenshot.png)
 
+
 ## dependencies
 ```
   # Ubuntu, Debian:
