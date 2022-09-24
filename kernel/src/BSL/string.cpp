@@ -11,6 +11,18 @@ char toupper(char chr)
     return islower(chr) ? (chr - 'a' + 'A') : chr;
 }
 
+char* substr(char* val, int start, int end)
+{
+    char* string = new char[end - start + 1];
+    int i;
+    for (i = start; i < end; i++)
+    {
+        string[i - start] = val[i];
+    }
+    string[i - start] = '\0';
+    return string;
+}
+
 const char* strchr(const char* str, char chr)
 {
     if (str == NULL)
@@ -144,6 +156,20 @@ BSLstr BSLstr::operator=(BSLstr& val)
 }
 
 BSLstr BSLstr::operator+(BSLstr& val)
+{
+    char re[strlen(val) + strlen(this->value)];
+    for (int i = 0; i < strlen(this->value); i++)
+    {
+        re[i] = this->value[i];
+    }
+    for (int i = 0; i < strlen(val); i++)
+    {
+        re[i + strlen(this->value)] = val[i];
+    }
+    return BSLstr {re};
+}
+
+BSLstr BSLstr::operator+(char* val)
 {
     char re[strlen(val) + strlen(this->value)];
     for (int i = 0; i < strlen(this->value); i++)

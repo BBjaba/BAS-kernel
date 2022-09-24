@@ -134,6 +134,7 @@ void BasicRenderer::PutChar(char chr)
         CursorPosition.Y += 16;
     }
     showPointer();
+    hidePointer();
 }
 
 void BasicRenderer::DrawCursor(uint8_t* cursorBitmap, Point position)

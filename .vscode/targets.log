@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Wed Sep 14 09:46:19 2022
+# Make data base, printed on Sat Sep 24 15:32:25 2022
 
 # Variables
 
@@ -40,6 +40,7 @@ endef
 VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 # default
 .VARIABLES := 
+ 
 # environment
 PWD = /home/bahamin/Documents/GitHub/BAS-kernel
 # automatic
@@ -55,7 +56,7 @@ XDG_DATA_DIRS = /home/bahamin/.local/share/flatpak/exports/share:/var/lib/flatpa
 # automatic
 %F = $(notdir $%)
 # environment
-VSCODE_CODE_CACHE_PATH = /home/bahamin/.config/Code/CachedData/e4503b30fc78200f846c62cf8091b76ff5547662
+VSCODE_CODE_CACHE_PATH = /home/bahamin/.config/Code/CachedData/74b1f979648cc44d385a2286793c226e611f59e7
 # environment
 LANG = C
 # environment
@@ -97,13 +98,13 @@ MAKEFILE_LIST := Makefile
 # automatic
 @F = $(notdir $@)
 # environment
-VSCODE_PID = 2728
+VSCODE_PID = 2974
 # environment
 XDG_SESSION_TYPE = x11
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
 # environment
-SESSION_MANAGER = local/unix:@/tmp/.ICE-unix/1943,unix/unix:/tmp/.ICE-unix/1943
+SESSION_MANAGER = local/unix:@/tmp/.ICE-unix/2006,unix/unix:/tmp/.ICE-unix/2006
 # automatic
 *F = $(notdir $*)
 # environment
@@ -143,7 +144,7 @@ MAKEFILES :=
 # automatic
 ^F = $(notdir $^)
 # environment
-INVOCATION_ID = 6c43ec47b00a42e5bc76996d17ba2bc5
+INVOCATION_ID = 205029ceb5b9477f9bc9dcee8edd6ec9
 # environment
 USERNAME = bahamin
 # automatic
@@ -167,7 +168,7 @@ GIO_LAUNCHED_DESKTOP_FILE = /usr/share/applications/code.desktop
 # makefile
 .DEFAULT_GOAL := all
 # environment
-SYSTEMD_EXEC_PID = 2000
+SYSTEMD_EXEC_PID = 2062
 # environment
 HISTCONTROL = ignoredups
 # environment
@@ -179,7 +180,7 @@ USER = bahamin
 # default
 MAKE_VERSION := 4.3
 # environment
-MANAGERPID = 1695
+MANAGERPID = 1754
 # environment
 which_declare = declare -f
 # environment
@@ -187,15 +188,15 @@ HOMEBREW_CELLAR = /home/linuxbrew/.linuxbrew/Cellar
 # environment
 DEBUGINFOD_URLS = https://debuginfod.fedoraproject.org/ 
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 2728
+GIO_LAUNCHED_DESKTOP_FILE_PID = 2974
 # environment
-SSH_AGENT_PID = 1872
+SSH_AGENT_PID = 1936
 # environment
 _ = /usr/bin/make
 # environment
 XDG_RUNTIME_DIR = /run/user/1000
 # environment
-JOURNAL_STREAM = 8:31112
+JOURNAL_STREAM = 8:32188
 # environment
 XDG_SESSION_CLASS = user
 # environment
@@ -207,7 +208,7 @@ QT_IM_MODULE = ibus
 # environment
 ELECTRON_RUN_AS_NODE = 1
 # environment
-VSCODE_IPC_HOOK = /run/user/1000/vscode-29e77879-1.70.2-main.sock
+VSCODE_IPC_HOOK = /run/user/1000/vscode-29e77879-1.71.2-main.sock
 # default
 .RECIPEPREFIX := 
 # automatic
@@ -231,7 +232,7 @@ GDMSESSION = gnome-xorg
 
 # Directories
 
-# . (device 2057, inode 3809131): 13 files, no impossibilities.
+# . (device 2057, inode 3809109): 13 files, no impossibilities.
 
 # 13 files, no impossibilities in 1 directories.
 
@@ -244,7 +245,7 @@ GDMSESSION = gnome-xorg
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-09-05 14:59:57.205791
+#  Last modified 2022-09-17 13:41:05.111185
 #  File has been updated.
 #  Successfully updated.
 
@@ -282,7 +283,6 @@ all:
 #  recipe to execute (from 'Makefile', line 2):
 	cd gnu-efi && make
 	cd kernel && make kernel && make buildimg && make run
- 
 
 run:
 #  Implicit rule search has not been done.
@@ -310,7 +310,8 @@ run:
 
 # strcache performance: lookups = 27 / hit rate = 29%
 # hash-table stats:
+ 
 # Load=19/8192=0%, Rehash=0, Collisions=0/27=0%
-# Finished Make data base on Wed Sep 14 09:46:19 2022
+# Finished Make data base on Sat Sep 24 15:32:25 2022
 
  

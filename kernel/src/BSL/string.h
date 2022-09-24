@@ -6,15 +6,16 @@
 #define nullptr 0
 
 class BSLstr {
-    char* value;
 
     public:
+        char* value;
         BSLstr();
         BSLstr(const char* val);
         BSLstr(const BSLstr& val);
         operator char*();
         BSLstr operator=(BSLstr& val);
         BSLstr operator+(BSLstr& val);
+        BSLstr operator+(char* val);
         bool operator==(BSLstr& val);
         bool operator==(char* val);
         BSLstr operator*(int val);
@@ -31,6 +32,7 @@ class BSLstr {
 void strrev(char *str1);
 char* appendChar(char* array, char a);
 char* strcpy(char* destination, char* source);
+char* substr(char* val, int start, int end);
 uint32_t strlen (char* str);
 char* deleteChar(char* array);
 bool isUppercase(char ch);

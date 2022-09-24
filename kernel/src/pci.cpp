@@ -1,8 +1,11 @@
 #include "pci.h"
-#include "AHCI/ahci.h"
 #include "memory/dynamics.h"
+#include "pciHeader.h"
 
-namespace PCI{
+namespace PCI
+{
+    AHCI::Port* devices[32][32];
+    uint64_t deviceCount;
 
     void EnumerateFunction(uint64_t deviceAddress, uint64_t function){
         uint64_t offset = function << 12;
@@ -35,7 +38,9 @@ namespace PCI{
                         switch (pciDeviceHeader->ProgIF)
                         {
                             case 0x01: //AHCI 1.0 Device
-                                new AHCI::AHCIDriver(pciDeviceHeader);
+                                AHCI::AHCIDriver* ahciDriver = new AHCI::AHCIDriver(pciDeviceHeader);
+                                for (int i = 0; i < 32; i++) devices[deviceCount][i] = ahciDriver->ports[i];
+                                deviceCount++;
                         }
                 }
         }
@@ -84,4 +89,16 @@ namespace PCI{
         }
     }
 
+    PassDevices getDevices()
+    {
+        PassDevices pass;
+        for (int i = 0; i < 32; i++)
+        {
+            for (int j = 0; j < 32; j++)
+            {
+                pass.devices[i][j] = devices[i][j];
+            }
+        }
+        return pass;
+    }
 }

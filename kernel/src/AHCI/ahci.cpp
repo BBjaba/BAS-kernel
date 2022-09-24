@@ -179,15 +179,15 @@ namespace AHCI
 
     }
 
-    AHCIDriver::AHCIDriver(PCI::PCIDeviceHeader* pciBaseAddress){
+    AHCIDriver::AHCIDriver(PCIDeviceHeader* pciBaseAddress){
         this->PCIBaseAddress = pciBaseAddress;
         GlobalRenderer->Next();
         uint32_t pastColor = GlobalRenderer->Colour;
         GlobalRenderer->Colour = Magenta;
-        GlobalRenderer->Println("AHCI Driver instance initialized. Reading from Drives:");
+        GlobalRenderer->Println("AHCI Driver instance initialized.");
         GlobalRenderer->Colour = Yellow;
 
-        ABAR = (HBAMemory*)((PCI::PCIHeader0*)pciBaseAddress)->BAR5;
+        ABAR = (HBAMemory*)((PCIHeader0*)pciBaseAddress)->BAR5;
 
         g_PageTableManager.MapMemory(ABAR, ABAR);
         ProbePorts();
@@ -198,7 +198,7 @@ namespace AHCI
 
             port->configure();
 
-            if (ports[i]->portType == PortType::SATA)
+            /*if (ports[i]->portType == PortType::SATA)
             {
                 port->buffer = (uint8_t*) GlobalAllocator.RequestPage();
                 memset(port->buffer, 0, 0x1000);
@@ -210,7 +210,7 @@ namespace AHCI
                     GlobalRenderer->Print(to_hstring(port->buffer[i]));
                     GlobalRenderer->Print(" ");
                 }
-            }
+            }*/
             
         }
 

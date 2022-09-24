@@ -1,6 +1,6 @@
 #pragma once
 #include <stdint.h>
-#include "../pci.h"
+#include "pciHeader.h"
 
 namespace AHCI 
 {
@@ -154,12 +154,17 @@ namespace AHCI
     class AHCIDriver
     {
         public:
-        AHCIDriver(PCI::PCIDeviceHeader* pciBaseAddress);
-        ~AHCIDriver();
-        PCI::PCIDeviceHeader* PCIBaseAddress;
-        HBAMemory* ABAR;
-        void ProbePorts();
-        Port* ports[32];
-        uint8_t portCount;
+            AHCIDriver(PCIDeviceHeader* pciBaseAddress);
+            ~AHCIDriver();
+            PCIDeviceHeader* PCIBaseAddress;
+            HBAMemory* ABAR;
+            void ProbePorts();
+            Port* ports[32];
+            uint8_t portCount;
+    };
+
+    struct device
+    {
+        Port* device[32];
     };
 }

@@ -53,8 +53,7 @@ make run
  - [x] AHCI (Drive initialization)
  - [x] AHCI (Port configrations)
  - [x] AHCI (Read from drives)
- - [ ] USB support
- - [ ] Fat16 and Fat32 support
+ - [x] Fat16 and Fat32 support
  - [ ] My own filesystem
  - [ ] Elf file support
  - [ ] Adding DE to make a complete OS

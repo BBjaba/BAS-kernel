@@ -17,6 +17,7 @@
 #include "userinput/kbScancodeTranslation.h"
 #include "userinput/keyboard.h"
 #include "userinput/mouse.h"
+#include "AHCI/ahci.h"
 #include "BSL/string.h"
 #include "memory/heap.h"
 #include "memory/dynamics.h"
@@ -24,4 +25,4 @@
 #include "handlers/keyboard.h"
 #include "handlers/mouse.h"
 
-void startDesktop();
+void startDesktop(AHCI::device disk);

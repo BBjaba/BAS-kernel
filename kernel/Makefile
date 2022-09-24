@@ -18,8 +18,7 @@ BUILDDIR = bin
 BOOTEFI := $(GNUEFI)/x86_64/bootloader/main.efi
 DSRCDIR := ../desktop
 DOBJDIR := lib/desktop
-
-INCLUDEDIRS = $(SRCDIR) $(SRCDIR)/gdt $(SRCDIR)/interrupts $(SRCDIR)/paging $(SRCDIR)/userinput $(SRCDIR)/BSL $(DSRCDIR)
+GNUDIR := ../gnu-efi
 
 rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(subst *,%,$2),$d))
 
@@ -45,7 +44,7 @@ $(OBJDIR)/interrupts/interrupts.o: $(SRCDIR)/interrupts/interrupts.cpp
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 	@ echo !==== COMPILING $^
 	@ mkdir -p $(@D)
-	$(CC) $(CFLAGS) -I$(INCLUDEDIRS) -c $^ -o $@
+	$(CC) $(CFLAGS) -I$(SRCDIR) -I$(SRCDIR)/gdt -I$(SRCDIR)/interrupts -I$(SRCDIR)/paging -I$(SRCDIR)/userinput -I$(SRCDIR)/BSL -I$(DSRCDIR) -I$(SRCDIR)/AHCI -I$(SRCDIR)/memory -I$(SRCDIR)/time -c $^ -o $@
 	
 $(OBJDIR)/%_asm.o: $(SRCDIR)/%.asm
 	@ echo !==== COMPILING $^
@@ -55,7 +54,7 @@ $(OBJDIR)/%_asm.o: $(SRCDIR)/%.asm
 $(DOBJDIR)/%.o: $(DSRCDIR)/%.cpp
 	@ echo !==== COMPILING $^
 	@ mkdir -p $(@D)
-	$(CC) $(CFLAGS) -I$(INCLUDEDIRS) -c $^ -o $@
+	$(CC) $(CFLAGS) -I$(SRCDIR) -I$(SRCDIR)/gdt -I$(SRCDIR)/interrupts -I$(SRCDIR)/paging -I$(SRCDIR)/userinput -I$(SRCDIR)/BSL -I$(DSRCDIR) -I$(SRCDIR)/AHCI -I$(SRCDIR)/memory -I$(SRCDIR)/time -c $^ -o $@
 	
 $(DOBJDIR)/%_asm.o: $(DSRCDIR)/%.asm
 	@ echo !==== COMPILING $^
@@ -83,7 +82,8 @@ buildimg:
 	mcopy -i $(BUILDDIR)/$(OSNAME).img $(BOOTEFI) ::/EFI/BOOT
 	mcopy -i $(BUILDDIR)/$(OSNAME).img startup.nsh ::
 	mcopy -i $(BUILDDIR)/$(OSNAME).img $(BUILDDIR)/kernel.elf ::
-	mcopy -i $(BUILDDIR)/$(OSNAME).img $(BUILDDIR)/zap-light16.psf ::
+	mcopy -i $(BUILDDIR)/$(OSNAME).img $(BUILDDIR)/font.psf ::
+	mcopy -i $(BUILDDIR)/$(OSNAME).img test.txt ::/EFI/
 
 run:
 	qemu-system-x86_64 -machine q35 -drive file=$(BUILDDIR)/$(OSNAME).img -m 256M -cpu qemu64 -drive if=pflash,format=raw,unit=0,file="$(OVMFDIR)/OVMF_CODE-pure-efi.fd",readonly=on -drive if=pflash,format=raw,unit=1,file="$(OVMFDIR)/OVMF_VARS-pure-efi.fd" -net none
