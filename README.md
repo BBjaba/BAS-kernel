@@ -1,5 +1,5 @@
 # BAS-kernel
-A kernel with alot features like GOP and PCI support with uefi bootlaoder. It has AHCI (The mass storage ATA driver in intel). Also there is a FAT filesystem to read files. So that you can control the ports and drives on your computer. It can handle many interrupts like PS2 Mouse and keyboard. It's also very flexible and all functions are implented as understandable as they could. You can modify it in anyway you want.
+A kernel with alot features like GOP and PCI support with uefi bootloader. It has AHCI (The mass storage ATA driver in intel). Also there is a FAT filesystem to read files. So that you can control the ports and drives on your computer. It can handle many interrupts like PS2 Mouse and keyboard. It's also very flexible and all functions are implented as understandable as they could. You can modify it in anyway you want.
 
 ![Screenshot](screenshot.png)
 
